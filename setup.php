@@ -1,31 +1,29 @@
 <?php
 /*
- * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
- archifun plugin for GLPI
- Copyright (C) 2009-2016 by the archifun Development Team.
-
- https://github.com/InfotelGLPI/archifun
+ Archifun plugin for GLPI
+ Copyright (C) 2009-2018 by Eric Feron.
  -------------------------------------------------------------------------
 
  LICENSE
       
- This file is part of archifun.
+ This file is part of Archifun.
 
- archifun is free software; you can redistribute it and/or modify
+ Archifun is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
+ at your option any later version.
 
- archifun is distributed in the hope that it will be useful,
+ Archifun is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
 
  You should have received a copy of the GNU General Public License
- along with archifun. If not, see <http://www.gnu.org/licenses/>.
+ along with Archifun. If not, see <http://www.gnu.org/licenses/>.
  --------------------------------------------------------------------------
  */
+
 
 // Init the hooks of the plugins -Needed
 function plugin_init_archifun() {
@@ -49,8 +47,8 @@ function plugin_init_archifun() {
    Plugin::registerClass('PluginArchifunProfile',
                          array('addtabon' => 'Profile'));
                          
-   if (class_exists('PluginArchiswSwcomponent')) {
-      PluginArchiswSwcomponent::registerType('PluginArchifunFuncarea');
+   if (class_exists('PluginArchifunSwcomponent')) {
+      PluginArchifunSwcomponent::registerType('PluginArchifunFuncarea');
    }
    //Plugin::registerClass('PluginArchifunFuncarea_Item',
    //                      array('ticket_types' => true));
