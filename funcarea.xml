@@ -1,0 +1,47 @@
+         <root>
+            <name>Functional area</name>
+            <key>archifun</key>
+            <state>stable</state> <!-- stable | unstable | beta | alpha -->
+            <logo>https://github.com/ericferon/glpi-funcarea/blob/master/funcarea.png</logo>
+            <description>
+               <short>
+                  <en>This plugin enables you to manage the functional areas of your enterprise architecture and associate them with elements of the inventory.</en>
+                  <fr>Ce plugin vous permet de définir les domaines fonctionnels de votre architecture d'entreprise et de les associer à des éléments d'inventaire.</fr>
+               </short>
+               <long>
+                  <en>This plugin enables you to manage the functional areas of your enterprise architecture and associate them with elements of the inventory.<br/>A functional area can be decomposed in subareas, helping you to associate inventory items (typically applications) to these functions</en>
+                  <fr>Ce plugin vous permet de définir les domaines fonctionnels de votre architecture d'entreprise et de les associer à des éléments d'inventaire.<br/>Un domaine fonctionnel peut être décomposé en sous-domaines, auxquels vous associez des éléments d'inventaires (comme des applications, p.ex).</fr>
+               </long>
+            </description>
+            <homepage>https://github.com/ericferon/glpi-archifun</homepage>
+            <download>https://github.com/ericferon/glpi-archifun/releases</download>
+            <issues>https://github.com/ericferon/glpi-archifun/issues</issues>
+            <readme>https://github.com/ericferon/glpi-archifun/blob/master/README.md</readme>
+            <authors>
+               <author>Eric Feron</author>
+            </authors>
+            <versions>
+               <version>
+                  <num>2.0.1</num>
+                  <compatibility>0.90</compatibility>
+                  <compatibility>9.1</compatibility>
+                  <compatibility>9.2</compatibility>
+               </version>
+            </versions>
+            <langs>
+               <lang>en_GB</lang>
+            </langs>
+            <license>GPL v2+</license>
+            <tags>
+               <en>
+                  <tag>Business Functions</tag>
+                  <tag>Architecture</tag>
+               </en>
+               <fr>
+                  <tag>Fonctions Métiers</tag>
+                  <tag>Architecture</tag>
+              </fr>
+            </tags>
+            <screenshots>
+            </screenshots>
+         </root>
