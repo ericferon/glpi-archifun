@@ -16,7 +16,7 @@
             <homepage>https://github.com/ericferon/glpi-archifun</homepage>
             <download>https://github.com/ericferon/glpi-archifun/releases</download>
             <issues>https://github.com/ericferon/glpi-archifun/issues</issues>
-            <readme>https://github.com/ericferon/glpi-archifun/blob/master/README.md</readme>
+            <readme>https://raw.githubusercontent.com/ericferon/glpi-archifun/master/README.md</readme>
             <authors>
                <author>Eric Feron</author>
             </authors>
