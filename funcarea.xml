@@ -2,7 +2,7 @@
             <name>Functional area</name>
             <key>archifun</key>
             <state>stable</state> <!-- stable | unstable | beta | alpha -->
-            <logo>https://raw.githubusercontent.com/ericferon/glpi-funcarea/master/funcarea.png</logo>
+            <logo>https://raw.githubusercontent.com/ericferon/glpi-archifun/master/funcarea.png</logo>
             <description>
                <short>
                   <en>This plugin enables you to manage the functional areas of your enterprise architecture and associate them with elements of the inventory.</en>
