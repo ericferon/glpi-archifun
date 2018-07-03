@@ -24,7 +24,6 @@
  --------------------------------------------------------------------------
  */
 
-
 // Init the hooks of the plugins -Needed
 function plugin_init_archifun() {
    global $PLUGIN_HOOKS;
@@ -47,8 +46,8 @@ function plugin_init_archifun() {
    Plugin::registerClass('PluginArchifunProfile',
                          array('addtabon' => 'Profile'));
                          
-   if (class_exists('PluginArchifunSwcomponent')) {
-      PluginArchifunSwcomponent::registerType('PluginArchifunFuncarea');
+   if (class_exists('PluginArchiswSwcomponent')) {
+      PluginArchiswSwcomponent::registerType('PluginArchifunFuncarea');
    }
    //Plugin::registerClass('PluginArchifunFuncarea_Item',
    //                      array('ticket_types' => true));

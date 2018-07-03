@@ -23,7 +23,6 @@
  along with Archifun. If not, see <http://www.gnu.org/licenses/>.
  --------------------------------------------------------------------------
  */
-
  
 class PluginArchifunMenu extends CommonGLPI {
    static $rightname = 'plugin_dataflows';

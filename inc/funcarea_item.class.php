@@ -24,6 +24,343 @@
  --------------------------------------------------------------------------
  */
 
+if (!defined('GLPI_ROOT')) {
+   die("Sorry. You can't access directly to this file");
+}
+
+class PluginArchifunFuncarea_Item extends CommonDBRelation {
+
+   // From CommonDBRelation
+   static public $itemtype_1 = "PluginArchifunFuncarea";
+   static public $items_id_1 = 'plugin_archifun_funcareas_id';
+   static public $take_entity_1 = false ;
+    
+   static public $itemtype_2 = 'itemtype';
+   static public $items_id_2 = 'items_id';
+   static public $take_entity_2 = true ;
+   
+   static $rightname = "plugin_archifun";
+
+   
+   /*static function getTypeName($nb=0) {
+
+      if ($nb > 1) {
+         return _n('Funcarea item', 'Funcareas items', 2, 'archifun');
+      }
+      return _n('Funcarea item', 'Funcareas items', 1, 'archifun');
+   }*/
+
+   /**
+    * Clean table when item is purged
+    *
+    * @param $item Object to use
+    *
+    * @return nothing
+    **/
+   public static function cleanForItem(CommonDBTM $item) {
+
+      $temp = new self();
+      $temp->deleteByCriteria(
+         array('itemtype' => $item->getType(),
+               'items_id' => $item->getField('id'))
+      );
+   }
+
+   /**
+    * Get Tab Name used for itemtype
+    *
+    * NB : Only called for existing object
+    *      Must check right on what will be displayed + template
+    *
+    * @since version 0.83
+    *
+    * @param $item            CommonDBTM object for which the tab need to be displayed
+    * @param $withtemplate    boolean  is a template object ? (default 0)
+    *
+    *  @return string tab name
+    **/
+   public function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
+
+      if (!$withtemplate) {
+         if ($item->getType()=='PluginArchifunFuncarea'
+             && count(PluginArchifunFuncarea::getTypes(false))) {
+            if ($_SESSION['glpishow_count_on_tabs']) {
+               return self::createTabEntry(_n('Associated item','Associated items',2), self::countForFuncarea($item));
+            }
+            return _n('Associated item','Associated items',2);
+
+         } else if (in_array($item->getType(), PluginArchifunFuncarea::getTypes(true))
+                    && Session::haveRight('plugin_archifun', READ)) {
+            if ($_SESSION['glpishow_count_on_tabs']) {
+               return self::createTabEntry(PluginArchifunFuncarea::getTypeName(2), self::countForItem($item));
+            }
+            return PluginArchifunFuncarea::getTypeName(2);
+         }
+      }
+      return '';
+   }
+
+   /**
+    * show Tab content
+    *
+    * @since version 0.83
+    *
+    * @param $item                  CommonGLPI object for which the tab need to be displayed
+    * @param $tabnum       integer  tab number (default 1)
+    * @param $withtemplate boolean  is a template object ? (default 0)
+    *
+    * @return true
+    **/
+   public static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
+
+      if ($item->getType()=='PluginArchifunFuncarea') {
+
+         self::showForFuncarea($item);
+
+      } else if (in_array($item->getType(), PluginArchifunFuncarea::getTypes(true))) {
+
+         self::showForITem($item);
+      }
+      return true;
+   }
+
+   static function countForFuncarea(PluginArchifunFuncarea $item) {
+
+      $types = implode("','", $item->getTypes());
+      if (empty($types)) {
+         return 0;
+      }
+      return countElementsInTable('glpi_plugin_archifun_funcareas_items',
+                                  "`itemtype` IN ('$types')
+                                   AND `plugin_archifun_funcareas_id` = '".$item->getID()."'");
+   }
+
+
+   static function countForItem(CommonDBTM $item) {
+
+      return countElementsInTable('glpi_plugin_archifun_funcareas_items',
+                                  "`itemtype`='".$item->getType()."'
+                                   AND `items_id` = '".$item->getID()."'");
+   }
+
+   function getFromDBbyFuncareasAndItem($plugin_archifun_funcareas_id,$items_id,$itemtype) {
+      global $DB;
+
+      $query = "SELECT * FROM `".$this->getTable()."` " .
+         "WHERE `plugin_archifun_funcareas_id` = '" . $plugin_archifun_funcareas_id . "'
+         AND `itemtype` = '" . $items_id . "'
+         AND `items_id` = '" . $itemtype . "'";
+      if ($result = $DB->query($query)) {
+         if ($DB->numrows($result) != 1) {
+            return false;
+         }
+         $this->fields = $DB->fetch_assoc($result);
+         if (is_array($this->fields) && count($this->fields)) {
+            return true;
+         } else {
+            return false;
+         }
+      }
+      return false;
+   }
+
+   function addItem($values) {
+
+      $this->add(array('plugin_archifun_funcareas_id'=>$values["plugin_archifun_funcareas_id"],
+                        'items_id'=>$values["items_id"],
+                        'itemtype'=>$values["itemtype"]));
+
+   }
+
+   function deleteItemByFuncareasAndItem($plugin_archifun_funcareas_id,$items_id,$itemtype) {
+
+      if ($this->getFromDBbyFuncareasAndItem($plugin_archifun_funcareas_id,$items_id,$itemtype)) {
+         $this->delete(array('id'=>$this->fields["id"]));
+      }
+   }
+
+   /**
+    * @since version 0.84
+   **/
+   function getForbiddenStandardMassiveAction() {
+
+      $forbidden   = parent::getForbiddenStandardMassiveAction();
+      $forbidden[] = 'update';
+      return $forbidden;
+   }
+   /**
+    * Show items links to a funcarea
+    *
+    * @since version 0.84
+    *
+    * @param $funcarea PluginArchifunFuncarea object
+    *
+    * @return nothing (HTML display)
+    **/
+   public static function showForFuncarea(PluginArchifunFuncarea $funcarea) {
+      global $DB;
+
+      $instID = $funcarea->fields['id'];
+      if (!$funcarea->can($instID, READ))   return false;
+
+      $rand=mt_rand();
+
+      $canedit=$funcarea->can($instID, UPDATE);
+
+      $query = "SELECT DISTINCT `itemtype`
+             FROM `glpi_plugin_archifun_funcareas_items`
+             WHERE `plugin_archifun_funcareas_id` = '$instID'
+             ORDER BY `itemtype`
+             LIMIT ".count(PluginArchifunFuncarea::getTypes(true));
+
+      $result = $DB->query($query);
+      $number = $DB->numrows($result);
+
+      if (Session::isMultiEntitiesMode()) {
+         $colsup=1;
+      } else {
+         $colsup=0;
+      }
+
+      if ($canedit) {
+         echo "<div class='firstbloc'>";
+         echo "<form method='post' name='archifun_form$rand' id='archifun_form$rand'
+         action='".Toolbox::getItemTypeFormURL("PluginArchifunFuncarea")."'>";
+
+         echo "<table class='tab_cadre_fixe'>";
+         echo "<tr class='tab_bg_2'><th colspan='".($canedit?(5+$colsup):(4+$colsup))."'>".
+            __('Add an item')."</th></tr>";
+
+         echo "<tr class='tab_bg_1'><td colspan='".(3+$colsup)."' class='center'>";
+         echo "<input type='hidden' name='plugin_archifun_funcareas_id' value='$instID'>";
+         Dropdown::showSelectItemFromItemtypes(array('items_id_name' => 'items_id',
+                                                     'itemtypes'     => PluginArchifunFuncarea::getTypes(true),
+                                                     'entity_restrict'
+                                                                     => ($funcarea->fields['is_recursive']
+                                                        ? getSonsOf('glpi_entities',
+                                                                    $funcarea->fields['entities_id'])
+                                                        : $funcarea->fields['entities_id']),
+                                                     'checkright'
+                                                                     => true,
+                                               ));
+         echo "</td>";
+         echo "<td colspan='2' class='tab_bg_2'>";
+         echo "<input type='submit' name='additem' value=\""._sx('button','Add')."\" class='submit'>";
+         echo "</td></tr>";
+         echo "</table>" ;
+         Html::closeForm();
+         echo "</div>" ;
+      }
+
+      echo "<div class='spaced'>";
+      if ($canedit && $number) {
+         Html::openMassiveActionsForm('mass'.__CLASS__.$rand);
+         $massiveactionparams = array();
+         Html::showMassiveActions($massiveactionparams);
+      }
+      echo "<table class='tab_cadre_fixe'>";
+      echo "<tr>";
+
+      if ($canedit && $number) {
+         echo "<th width='10'>".Html::getCheckAllAsCheckbox('mass'.__CLASS__.$rand)."</th>";
+      }
+
+      echo "<th>".__('Type')."</th>";
+      echo "<th>".__('Name')."</th>";
+      if (Session::isMultiEntitiesMode())
+         echo "<th>".__('Entity')."</th>";
+      echo "<th>".__('Serial number')."</th>";
+      echo "<th>".__('Inventory number')."</th>";
+      echo "</tr>";
+
+      for ($i=0 ; $i < $number ; $i++) {
+         $itemType=$DB->result($result, $i, "itemtype");
+
+         if (!($item = getItemForItemtype($itemType))) {
+            continue;
+         }
+
+         if ($item->canView()) {
+            $column="name";
+            $itemTable = getTableForItemType($itemType);
+
+            $query = "SELECT `".$itemTable."`.*,
+                             `glpi_plugin_archifun_funcareas_items`.`id` AS items_id,
+                             `glpi_entities`.`id` AS entity "
+               ." FROM `glpi_plugin_archifun_funcareas_items`, `".$itemTable
+               ."` LEFT JOIN `glpi_entities` ON (`glpi_entities`.`id` = `".$itemTable."`.`entities_id`) "
+               ." WHERE `".$itemTable."`.`id` = `glpi_plugin_archifun_funcareas_items`.`items_id`
+                AND `glpi_plugin_archifun_funcareas_items`.`itemtype` = '$itemType'
+                AND `glpi_plugin_archifun_funcareas_items`.`plugin_archifun_funcareas_id` = '$instID' "
+               . getEntitiesRestrictRequest(" AND ",$itemTable,'','',$item->maybeRecursive());
+
+            if ($item->maybeTemplate()) {
+               $query.=" AND `".$itemTable."`.`is_template` = '0'";
+            }
+            $query.=" ORDER BY `glpi_entities`.`completename`, `".$itemTable."`.`$column`";
+
+            if ($result_linked=$DB->query($query)) {
+               if ($DB->numrows($result_linked)) {
+
+                  Session::initNavigateListItems($itemType,PluginArchifunFuncarea::getTypeName(2)." = ".$funcarea->fields['name']);
+
+                  while ($data=$DB->fetch_assoc($result_linked)) {
+
+                     $item->getFromDB($data["id"]);
+
+                     Session::addToNavigateListItems($itemType,$data["id"]);
+
+                     $ID="";
+
+                     if ($_SESSION["glpiis_ids_visible"]||empty($data["name"]))
+                        $ID= " (".$data["id"].")";
+
+                     $link=Toolbox::getItemTypeFormURL($itemType);
+                     $name= "<a href=\"".$link."?id=".$data["id"]."\">"
+                        .$data["name"]."$ID</a>";
+
+                     echo "<tr class='tab_bg_1'>";
+
+                     if ($canedit) {
+                        echo "<td width='10'>";
+                        Html::showMassiveActionCheckBox(__CLASS__, $data["items_id"]);
+                        echo "</td>";
+                     }
+                     echo "<td class='center'>".$item::getTypeName(1)."</td>";
+
+                     echo "<td class='center' ".(isset($data['is_deleted'])&&$data['is_deleted']?"class='tab_bg_2_2'":"").
+                        ">".$name."</td>";
+
+                     if (Session::isMultiEntitiesMode())
+                        echo "<td class='center'>".Dropdown::getDropdownName("glpi_entities",$data['entity'])."</td>";
+
+                     echo "<td class='center'>".(isset($data["serial"])? "".$data["serial"]."" :"-")."</td>";
+                     echo "<td class='center'>".(isset($data["otherserial"])? "".$data["otherserial"]."" :"-")."</td>";
+
+                     echo "</tr>";
+                  }
+               }
+            }
+         }
+      }
+      echo "</table>";
+
+      if ($canedit && $number) {
+         $paramsma['ontop'] =false;
+         Html::showMassiveActions($paramsma);
+         Html::closeForm();
+      }
+      echo "</div>";
+   }
+
+   /**
+   * Show funareas associated to an item
+   *
+   * @since version 0.84
+   *
+   * @param $item            CommonDBTM object for which associated funcareas must be displayed
+   * @param $withtemplate    (default '')
+   **/
    static function showForItem(CommonDBTM $item, $withtemplate='') {
       global $DB, $CFG_GLPI;
 
