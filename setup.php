@@ -54,9 +54,7 @@ function plugin_init_archifun() {
       
    if (Session::getLoginUserID()) {
 
-      $plugin = new Plugin();
-      if (!$plugin->isActivated('environment')
-         && Session::haveRight("plugin_archifun", READ)) {
+      if (Session::haveRight("plugin_archifun", READ)) {
 
          $PLUGIN_HOOKS['menu_toadd']['archifun'] = array('admin'   => 'PluginArchifunMenu');
       }
