@@ -102,53 +102,20 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
       $tab[3]['name']            = __('Level');
       $tab[3]['datatype']        = 'text';
 
-/*      $tab[4]['table']           = 'glpi_locations';
-      $tab[4]['field']           = 'completename';
-      $tab[4]['name']            = __('Location');
-      $tab[4]['datatype']        = 'dropdown';
-
-      $tab[5]['table']           = 'glpi_suppliers';
-      $tab[5]['field']           = 'name';
-      $tab[5]['name']            = __('Supplier');
-      $tab[5]['datatype']        = 'dropdown';
-
-      $tab[6]['table']           = 'glpi_manufacturers';
-      $tab[6]['field']           = 'name';
-      $tab[6]['name']            = __('Editor', 'archifun');
-      $tab[6]['datatype']        = 'dropdown';
-
-      $tab[7]['table']           = 'glpi_plugin_archifun_funcarea_items';
-      $tab[7]['field']           = 'items_id';
-      $tab[7]['nosearch']        = true;
-      $tab[7]['massiveaction']   = false;
-      $tab[7]['name']            = _n('Associated item' , 'Associated items', 2);
-      $tab[7]['forcegroupby']    = true;
-      $tab[7]['joinparams']      = array('jointype' => 'child');
-
-      $tab[8]['table']           = $this->getTable();
-      $tab[8]['field']           = 'is_recursive';
-      $tab[8]['name']            = __('Child entities');
-      $tab[8]['datatype']        = 'bool';
-*/
       $tab[11]['table']          = 'glpi_users';
       $tab[11]['field']          = 'name';
       $tab[11]['linkfield']      = 'users_id';
-      $tab[11]['name']           = __('Funcarea Expert');
+      $tab[11]['name']           = __('Funcarea Expert', 'archifun');
       $tab[11]['datatype']       = 'dropdown';
       $tab[11]['right']          = 'interface';
 
       $tab[12]['table']          = 'glpi_groups';
       $tab[12]['field']          = 'name';
       $tab[12]['linkfield']      = 'groups_id';
-      $tab[12]['name']           = __('Funcarea Follow-up');
+      $tab[12]['name']           = __('Funcarea Follow-up', 'archifun');
       $tab[12]['condition']      = '`is_assign`';
       $tab[12]['datatype']       = 'dropdown';
 
-/*      $tab[13]['table']          = $this->getTable();
-      $tab[13]['field']          = 'is_helpdesk_visible';
-      $tab[13]['name']           = __('Associable to a ticket');
-      $tab[13]['datatype']       = 'bool';
-*/
       $tab[14]['table']          = $this->getTable();
       $tab[14]['field']          = 'date_mod';
       $tab[14]['massiveaction']  = false;
@@ -162,7 +129,7 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
 
       $tab[80]['table']          = $this->getTable();
       $tab[80]['field']          = 'completename';
-      $tab[80]['name']           = __('Functional Structure');
+      $tab[80]['name']           = __('Functional Structure', 'archifun');
       $tab[80]['datatype']       = 'dropdown';
       
       $tab[81]['table']       = 'glpi_entities';
@@ -237,11 +204,11 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
 
       echo "<tr class='tab_bg_1'>";
       //groups
-      echo "<td>".__('Function Owner')."</td><td>";
+      echo "<td>".__('Function Owner', 'archifun')."</td><td>";
       Group::dropdown(array('name'      => 'groups_id', 'value'     => $this->fields['groups_id'], 'entity'    => $this->fields['entities_id'], 'condition' => '`is_assign`'));
       echo "</td>";
       //users
-      echo "<td>".__('Function Maintainer')."</td><td>";
+      echo "<td>".__('Function Maintainer', 'archifun')."</td><td>";
       User::dropdown(array('name' => "users_id", 'value' => $this->fields["users_id"], 'entity' => $this->fields["entities_id"], 'right' => 'interface'));
       echo "</td>";
       echo "</tr>";
