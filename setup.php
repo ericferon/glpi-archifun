@@ -30,7 +30,7 @@ function plugin_init_archifun() {
 
    $PLUGIN_HOOKS['csrf_compliant']['archifun'] = true;
    $PLUGIN_HOOKS['change_profile']['archifun'] = array('PluginArchifunProfile', 'initProfile');
-   $PLUGIN_HOOKS['assign_to_ticket']['archifun'] = true;
+//   $PLUGIN_HOOKS['assign_to_ticket']['archifun'] = false;
    
    //$PLUGIN_HOOKS['assign_to_ticket_dropdown']['archifun'] = true;
    //$PLUGIN_HOOKS['assign_to_ticket_itemtype']['archifun'] = array('PluginArchifunFuncarea_Item');
@@ -39,7 +39,7 @@ function plugin_init_archifun() {
          'linkgroup_tech_types'   => true,
          'linkuser_tech_types'    => true,
          'document_types'         => true,
-         'ticket_types'           => true,
+//         'ticket_types'           => true,
          'helpdesk_visible_types' => true//,
 //         'addtabon'               => 'Supplier'
    ));
