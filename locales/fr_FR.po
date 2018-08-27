@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: GLPI Project - dataflows plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-08-17 17:02+0200\n"
-"PO-Revision-Date: 2018-08-17 17:07+0200\n"
+"PO-Revision-Date: 2018-08-27 17:21+0200\n"
 "Last-Translator: Eric Feron <ericferon@scarlet.be>\n"
 "Language-Team: French (France) (http://www.transifex.com/tsmr/GLPI_dataflows/"
 "language/fr_FR/)\n"
@@ -33,8 +33,8 @@ msgstr[0] "Domaine fonctionnel"
 msgstr[1] "Domaines fonctionnels"
 
 #: setup.php:95
-msgid "This plugin requires GLPI >= 9.2 and <= 9.2"
-msgstr "Ce plugin nécessite une version GLPI >= 9.2 et <= 9.2"
+msgid "This plugin requires GLPI >= 9.2 and < 9.4"
+msgstr "Ce plugin nécessite une version GLPI >= 9.2 et < 9.4"
 
 #: inc/funcarea.class.php:108
 msgid "Funcarea Expert"
