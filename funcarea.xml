@@ -7,10 +7,12 @@
                <short>
                   <en>This plugin enables you to manage the functional areas of your enterprise architecture and associate them with elements of the inventory.</en>
                   <fr>Ce plugin vous permet de définir les domaines fonctionnels de votre architecture d'entreprise et de les associer à des éléments d'inventaire.</fr>
+                  <cs>Tento zásuvný modul umožňuje spravovat oblasti funkcí podnikové architektury a přiřadit je k prvkům inventáře.</cs>
                </short>
                <long>
                   <en>This plugin enables you to manage the functional areas of your enterprise architecture and associate them with elements of the inventory.<br/>A functional area can be decomposed in subareas, helping you to associate inventory items (typically applications) to these functions</en>
                   <fr>Ce plugin vous permet de définir les domaines fonctionnels de votre architecture d'entreprise et de les associer à des éléments d'inventaire.<br/>Un domaine fonctionnel peut être décomposé en sous-domaines, auxquels vous associez des éléments d'inventaires (comme des applications, p.ex).</fr>
+                  <cs>Tento zásuvný modul umožňuje spravovat oblasti funkcí podnikové architektury a přiřadit je k prvkům inventáře.<br/>Oblast funkce může být rozčleněna do podpoblastí, což pomůže k přiřazení k položkám inventáře (typicky aplikacím) k těmto funkcím</cs>
                </long>
             </description>
             <homepage>https://github.com/ericferon/glpi-archifun</homepage>
@@ -48,6 +50,10 @@
                   <tag>Fonctions Métiers</tag>
                   <tag>Architecture</tag>
               </fr>
+              <cs>
+                  <tag>Funkce pro firmu</tag>
+                  <tag>Architektura</tag>
+              </cs>
             </tags>
             <screenshots>
             </screenshots>
