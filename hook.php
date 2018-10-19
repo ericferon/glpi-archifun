@@ -264,9 +264,9 @@ function plugin_archifun_MassiveActionsProcess($data) {
    return $res;
 }
 */
-function plugin_datainjection_populate_funcareas() {
+function plugin_datainjection_populate_archifun() {
    global $INJECTABLE_TYPES;
-   $INJECTABLE_TYPES['PluginArchifunFuncareaInjection'] = 'funcareas';
+   $INJECTABLE_TYPES['PluginArchifunFuncareaInjection'] = 'datainjection';
 }
 
 
