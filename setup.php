@@ -80,7 +80,7 @@ function plugin_version_archifun() {
 
    return array (
       'name' => _n('Functional Area', 'Functional Areas', 2, 'archifun'),
-      'version' => '2.0.6',
+      'version' => '2.0.7',
       'author'  => "Eric Feron",
       'license' => 'GPLv2+',
       'homepage'=>'https://github.com/ericferon/glpi-archifun',
