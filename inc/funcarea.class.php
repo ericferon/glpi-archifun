@@ -74,7 +74,8 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
 
    static function countForItem(CommonDBTM $item) {
 
-      return countElementsInTable('glpi_plugin_archifun_funcarea',
+      $dbu = new DbUtils();
+      return $dbu->countElementsInTable('glpi_plugin_archifun_funcarea',
                                   "`suppliers_id` = '".$item->getID()."'");
    }
 
