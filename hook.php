@@ -81,7 +81,7 @@ function plugin_archifun_install() {
 
       Plugin::migrateItemType(
          array(2400=>'PluginArchifunFuncarea'),
-         array("glpi_bookmarks", "glpi_bookmarks_users", "glpi_displaypreferences",
+         array("glpi_savedsearches", "glpi_savedsearches_users", "glpi_displaypreferences",
                "glpi_documents_items", "glpi_infocoms", "glpi_logs", "glpi_items_tickets"),
          array("glpi_plugin_archifun_funcareas_items"));
 
@@ -113,7 +113,7 @@ function plugin_archifun_uninstall() {
 
 	$tables_glpi = array("glpi_displaypreferences",
                "glpi_documents_items",
-               "glpi_bookmarks",
+               "glpi_savedsearches",
                "glpi_logs",
                "glpi_items_tickets",
                "glpi_notepads",
