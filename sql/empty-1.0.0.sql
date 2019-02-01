@@ -28,7 +28,7 @@ CREATE TABLE `glpi_plugin_archifun_funcareas` (
   KEY is_helpdesk_visible (is_helpdesk_visible),
   KEY `is_deleted` (`is_deleted`),
   KEY `plugin_archifun_funcareas_id` (`plugin_archifun_funcareas_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=756 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+) AUTO_INCREMENT=756 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
 
 -- ----------------------------------------------------------------
 -- Table `glpi_plugin_archifun_funcareas_items`
@@ -43,7 +43,7 @@ CREATE TABLE `glpi_plugin_archifun_funcareas_items` (
 	UNIQUE KEY `unicity` (`plugin_archifun_funcareas_id`,`items_id`,`itemtype`),
   KEY `FK_device` (`items_id`,`itemtype`),
   KEY `item` (`itemtype`,`items_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- -----------------------------------------------------
 -- Table `glpi_plugin_archifun_profiles`
@@ -56,7 +56,7 @@ CREATE TABLE `glpi_plugin_archifun_profiles` (
 	`open_ticket` char(1) collate utf8_unicode_ci default NULL,
 	PRIMARY KEY  (`id`),
 	KEY `profiles_id` (`profiles_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `glpi_displaypreferences` VALUES (NULL,'PluginArchifunFuncarea','2','2','0');
 INSERT INTO `glpi_displaypreferences` VALUES (NULL,'PluginArchifunFuncarea','6','3','0');
