@@ -80,7 +80,7 @@ function plugin_version_archifun() {
 
    return array (
       'name' => _n('Functional Area', 'Functional Areas', 2, 'archifun'),
-      'version' => '2.0.9',
+      'version' => '2.0.10',
       'author'  => "Eric Feron",
       'license' => 'GPLv2+',
       'homepage'=>'https://github.com/ericferon/glpi-archifun',
@@ -91,8 +91,8 @@ function plugin_version_archifun() {
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_archifun_check_prerequisites() {
-   if (version_compare(GLPI_VERSION,'9.2','lt') || version_compare(GLPI_VERSION,'9.4','ge')) {
-      _e('This plugin requires GLPI >= 9.2 and < 9.4', 'archifun');
+   if (version_compare(GLPI_VERSION,'9.2','lt') || version_compare(GLPI_VERSION,'9.5','ge')) {
+      _e('This plugin requires GLPI >= 9.2 and < 9.5', 'archifun');
       return false;
    }
    return true;
