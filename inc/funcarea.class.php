@@ -34,7 +34,7 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
    static $rightname = "plugin_archifun";
    protected $usenotepad         = true;
    
-   static $types = array('Computer','Software', 'SoftwareLicense');
+   static $types = ['Computer','Software', 'SoftwareLicense'];
 
    static function getTypeName($nb=0) {
 
@@ -83,12 +83,12 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
    function cleanDBonPurge() {
 
 //      $temp = new PluginArchifunFuncarea_Item();
-//      $temp->deleteByCriteria(array('plugin_archifun_funcareas_id' => $this->fields['id']));
+//      $temp->deleteByCriteria(['plugin_archifun_funcareas_id' => $this->fields['id']]);
    }
 
    function getSearchOptions() {
 
-      $tab                       = array();
+      $tab                       = [];
       if (version_compare(GLPI_VERSION,'9.3','ge')) return $tab;
 
       $tab['common']             = self::getTypeName(2);
@@ -225,9 +225,9 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
    }
 
    //define header form
-   function defineTabs($options=array()) {
+   function defineTabs($options=[]) {
 
-      $ong = array();
+      $ong = [];
       $this->addDefaultFormTab($ong);
       $this->addStandardTab('PluginArchifunFuncarea', $ong, $options);
 //      $this->addStandardTab('PluginArchifunFuncarea_Item', $ong, $options);
@@ -248,7 +248,7 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
               WHERE `plugin_archifun_funcareas_id`='" . $this->fields['id']."'";
    }
 */
-   function showForm ($ID, $options=array()) {
+   function showForm ($ID, $options=[]) {
 
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
@@ -265,12 +265,12 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
       //completename of funcarea
       echo "<td>".__('As child of').": </td>";
       echo "<td>";
-      Dropdown::show('PluginArchifunFuncarea', array('value' => $this->fields["plugin_archifun_funcareas_id"]));
+      Dropdown::show('PluginArchifunFuncarea', ['value' => $this->fields["plugin_archifun_funcareas_id"]]);
       echo "</td>";
       //level of funcarea
       echo "<td>".__('Level').": </td>";
       echo "<td>";
-      Html::autocompletionTextField($this,"level",array('size' => "2", 'option' => "readonly='readonly'"));
+      Html::autocompletionTextField($this,"level",['size' => "2", 'option' => "readonly='readonly'"]);
       echo "</td>";
       echo "</tr>";
 
@@ -278,7 +278,7 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
       //description of funcarea
       echo "<td>".__('Description').":	</td>";
       echo "<td class='top center' colspan='6'>";
-      Html::autocompletionTextField($this,"description",array('size' => "140"));
+      Html::autocompletionTextField($this,"description",['size' => "140"]);
       echo "</td>";
       echo "</tr>";
       echo "<tr class='tab_bg_1'>";
@@ -290,11 +290,15 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
       echo "<tr class='tab_bg_1'>";
       //groups
       echo "<td>".__('Function Owner', 'archifun')."</td><td>";
-      Group::dropdown(array('name'      => 'groups_id', 'value'     => $this->fields['groups_id'], 'entity'    => $this->fields['entities_id'], 'condition' => '`is_assign`'));
+      Group::dropdown(['name'      => 'groups_id', 
+                        'value'     => $this->fields['groups_id'], 
+                        'entity'    => $this->fields['entities_id'], 
+                        'condition' => ['is_assign' => 1]
+                        ]);
       echo "</td>";
       //users
       echo "<td>".__('Function Maintainer', 'archifun')."</td><td>";
-      User::dropdown(array('name' => "users_id", 'value' => $this->fields["users_id"], 'entity' => $this->fields["entities_id"], 'right' => 'interface'));
+      User::dropdown(['name' => "users_id", 'value' => $this->fields["users_id"], 'entity' => $this->fields["entities_id"], 'right' => 'interface']);
       echo "</td>";
       echo "</tr>";
 
@@ -318,13 +322,13 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
     *
     * @return nothing (print out an HTML select box)
    **/
-   static function dropdownFuncarea($options=array()) {
+   static function dropdownFuncarea($options=[]) {
       global $DB, $CFG_GLPI;
 
 
       $p['name']    = 'plugin_archifun_funcareas_id';
       $p['entity']  = '';
-      $p['used']    = array();
+      $p['used']    = [];
       $p['display'] = true;
 
       if (is_array($options) && count($options)) {
@@ -349,22 +353,22 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
                 ORDER BY `name`";
       $result = $DB->query($query);
 
-      $values = array(0 => Dropdown::EMPTY_VALUE);
+      $values = [0 => Dropdown::EMPTY_VALUE];
 
       while ($data = $DB->fetch_assoc($result)) {
          $values[$data['id']] = $data['name'];
       }
       $rand = mt_rand();
-      $out  = Dropdown::showFromArray('_dataflowtype', $values, array('width'   => '30%',
+      $out  = Dropdown::showFromArray('_dataflowtype', $values, ['width'   => '30%',
                                                                      'rand'    => $rand,
-                                                                     'display' => false));
+                                                                     'display' => false]);
       $field_id = Html::cleanId("dropdown__dataflowtype$rand");
 
-      $params   = array('dataflowtype' => '__VALUE__',
+      $params   = ['dataflowtype' => '__VALUE__',
                         'entity' => $p['entity'],
                         'rand'   => $rand,
                         'myname' => $p['name'],
-                        'used'   => $p['used']);
+                        'used'   => $p['used']];
 
       $out .= Ajax::updateItemOnSelectEvent($field_id,"show_".$p['name'].$rand,
                                             $CFG_GLPI["root_doc"]."/plugins/archifun/ajax/dropdownTypeFuncareas.php",

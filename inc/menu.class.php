@@ -25,7 +25,7 @@
  */
  
 class PluginArchifunMenu extends CommonGLPI {
-   static $rightname = 'plugin_dataflows';
+   static $rightname = 'plugin_archifun';
 
    static function getMenuName() {
       return _n('Functional Area', 'Functional Areas', 2, 'archifun');
@@ -34,7 +34,7 @@ class PluginArchifunMenu extends CommonGLPI {
    static function getMenuContent() {
       global $CFG_GLPI;
 
-      $menu                                           = array();
+      $menu                                           = [];
       $menu['title']                                  = self::getMenuName();
       $menu['page']                                   = "/plugins/archifun/front/funcarea.php";
       $menu['links']['search']                        = PluginArchifunFuncarea::getSearchURL(false);

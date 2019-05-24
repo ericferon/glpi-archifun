@@ -107,7 +107,7 @@ class PluginArchifunFuncareaInjection extends PluginArchifunFuncarea
     * @param array|fields  $values
     * @param array|options $options
     *
-    * @return an array of IDs of newly created objects : for example array(Computer=>1, Networkport=>10)
+    * @return an array of IDs of newly created objects : for example [Computer=>1, Networkport=>10]
     * @internal param fields $values to add into glpi
     * @internal param options $options used during creation
     */

@@ -38,11 +38,11 @@ function plugin_archifun_install() {
    
    if ($DB->TableExists("glpi_plugin_archifun_profiles")) {
    
-      $notepad_tables = array('glpi_plugin_archifun_funcareas');
+      $notepad_tables = ['glpi_plugin_archifun_funcareas'];
 
       foreach ($notepad_tables as $t) {
          // Migrate data
-         if (FieldExists($t, 'notepad')) {
+         if (!$DB->FieldExists($t, 'notepad')) {
             $query = "SELECT id, notepad
                       FROM `$t`
                       WHERE notepad IS NOT NULL
@@ -79,15 +79,6 @@ function plugin_archifun_install() {
                DROP `name` ;";
       $result=$DB->query($query);
 
-      Plugin::migrateItemType(
-         array(2400=>'PluginArchifunFuncarea'),
-         array("glpi_savedsearches", "glpi_savedsearches_users", "glpi_displaypreferences",
-               "glpi_documents_items", "glpi_infocoms", "glpi_logs", "glpi_items_tickets"),
-         array("glpi_plugin_archifun_funcareas_items"));
-
-      Plugin::migrateItemType(
-         array(1200 => "PluginAppliancesAppliance",1300 => "PluginWebapplicationsWebapplication"),
-         array("glpi_plugin_archifun_funcareas_items"));
    }
 
    PluginArchifunProfile::initProfile();
@@ -104,32 +95,32 @@ function plugin_archifun_uninstall() {
    include_once (GLPI_ROOT."/plugins/archifun/inc/profile.class.php");
    include_once (GLPI_ROOT."/plugins/archifun/inc/menu.class.php");
    
-	$tables = array("glpi_plugin_archifun_funcareas",
+	$tables = ["glpi_plugin_archifun_funcareas",
 					"glpi_plugin_archifun_funcareas_items",
-					"glpi_plugin_archifun_profiles");
+					"glpi_plugin_archifun_profiles"];
 
    foreach($tables as $table)
       $DB->query("DROP TABLE IF EXISTS `$table`;");
 
-	$tables_glpi = array("glpi_displaypreferences",
+	$tables_glpi = ["glpi_displaypreferences",
                "glpi_documents_items",
                "glpi_savedsearches",
                "glpi_logs",
                "glpi_items_tickets",
                "glpi_notepads",
-               "glpi_dropdowntranslations");
+               "glpi_dropdowntranslations"];
 
    foreach($tables_glpi as $table_glpi)
       $DB->query("DELETE FROM `$table_glpi` WHERE `itemtype` LIKE 'PluginArchifun%' ;");
 
    if (class_exists('PluginDatainjectionModel')) {
-      PluginDatainjectionModel::clean(array('itemtype'=>'PluginArchifunFuncarea'));
+      PluginDatainjectionModel::clean(['itemtype'=>'PluginArchifunFuncarea']);
    }
    
    //Delete rights associated with the plugin
    $profileRight = new ProfileRight();
    foreach (PluginArchifunProfile::getAllRights() as $right) {
-      $profileRight->deleteByCriteria(array('name' => $right['field']));
+      $profileRight->deleteByCriteria(['name' => $right['field']]);
    }
    PluginArchifunMenu::removeRightsFromSession();
    PluginArchifunProfile::removeRightsFromSession();
@@ -140,12 +131,12 @@ function plugin_archifun_uninstall() {
 function plugin_archifun_postinit() {
    global $PLUGIN_HOOKS;
 
-   $PLUGIN_HOOKS['item_purge']['archifun'] = array();
+   $PLUGIN_HOOKS['item_purge']['archifun'] = [];
 
    foreach (PluginArchifunFuncarea::getTypes(true) as $type) {
 
       $PLUGIN_HOOKS['item_purge']['archifun'][$type]
-         = array('PluginArchifunFuncarea_Item','cleanForItem');
+         = ['PluginArchifunFuncarea_Item','cleanForItem'];
 
       CommonGLPI::registerStandardTab($type, 'PluginArchifunFuncarea_Item');
    }
@@ -157,13 +148,13 @@ function plugin_archifun_getFuncareaRelations() {
 
    $plugin = new Plugin();
    if ($plugin->isActivated("archifun"))
-		return array("glpi_plugin_archifun_funcareas"=>array("glpi_plugin_archifun_funcareas_items"=>"plugin_archifun_funcareas_id"),
-					 "glpi_entities"=>array("glpi_plugin_archifun_funcareas"=>"entities_id"),
-					 "glpi_groups"=>array("glpi_plugin_archifun_funcareas"=>"groups_id"),
-					 "glpi_users"=>array("glpi_plugin_archifun_funcareas"=>"users_id")
-					 );
+		return ["glpi_plugin_archifun_funcareas"=>["glpi_plugin_archifun_funcareas_items"=>"plugin_archifun_funcareas_id"],
+					 "glpi_entities"=>["glpi_plugin_archifun_funcareas"=>"entities_id"],
+					 "glpi_groups"=>["glpi_plugin_archifun_funcareas"=>"groups_id"],
+					 "glpi_users"=>["glpi_plugin_archifun_funcareas"=>"users_id"]
+					 ];
    else
-      return array();
+      return [];
 }
 
 // Define Dropdown tables to be manage in GLPI :
@@ -171,16 +162,16 @@ function plugin_archifun_getDropdown() {
 
    $plugin = new Plugin();
    if ($plugin->isActivated("archifun"))
-		return array();
+		return [];
    else
-      return array();
+      return [];
 }
 
 ////// SEARCH FUNCTIONS ///////() {
 
 function plugin_archifun_getAddSearchOptions($itemtype) {
 
-   $sopt=array();
+   $sopt=[];
 
    if (in_array($itemtype, PluginArchifunFuncarea::getTypes(true))) {
       if (Session::haveRight("plugin_archifun", READ)) {
@@ -192,9 +183,9 @@ function plugin_archifun_getAddSearchOptions($itemtype) {
          $sopt[2410]['datatype']      = 'itemlink';
          $sopt[2410]['massiveaction'] = false;
          $sopt[2410]['itemlink_type'] = 'PluginArchifunFuncarea';
-         $sopt[2410]['joinparams']    = array('beforejoin'
-                                                => array('table'      => 'glpi_plugin_archifun_funcareas_items',
-                                                         'joinparams' => array('jointype' => 'itemtype_item')));
+         $sopt[2410]['joinparams']    = ['beforejoin'
+                                                => ['table'      => 'glpi_plugin_archifun_funcareas_items',
+                                                         'joinparams' => ['jointype' => 'itemtype_item']]];
 
      }
    }
@@ -211,15 +202,18 @@ function plugin_archifun_giveItem($type,$ID,$data,$num) {
 
 function plugin_archifun_MassiveActions($type) {
 
-   if (in_array($type,PluginArchifunFuncarea::getTypes(true))) {
-      return array('PluginArchifunFuncarea'.MassiveAction::CLASS_ACTION_SEPARATOR.'plugin_archifun__add_item' =>
-                                                              __('Associate to the Functional Area', 'archifun'));
-   }
-   return array();
+    $plugin = new Plugin();
+    if ($plugin->isActivated('archifun')) {
+        if (in_array($type,PluginArchifunFuncarea::getTypes(true))) {
+            return ['PluginArchifunFuncarea'.MassiveAction::CLASS_ACTION_SEPARATOR.'plugin_archifun__add_item' =>
+                                                              __('Associate to the Functional Area', 'archifun')];
+        }
+    }
+    return [];
 }
 
 /*
-function plugin_archifun_MassiveActionsDisplay($options=array()) {
+function plugin_archifun_MassiveActionsDisplay($options=[]) {
 
    $funcarea=new PluginArchifunFuncarea;
 
@@ -233,9 +227,9 @@ function plugin_archifun_MassiveActionsDisplay($options=array()) {
 
 function plugin_archifun_MassiveActionsProcess($data) {
 
-   $res = array('ok' => 0,
+   $res = ['ok' => 0,
             'ko' => 0,
-            'noright' => 0);
+            'noright' => 0];
 
    $funcarea_item = new PluginArchifunFuncarea_Item();
 
@@ -244,9 +238,9 @@ function plugin_archifun_MassiveActionsProcess($data) {
       case "plugin_archifun_add_item":
          foreach ($data["item"] as $key => $val) {
             if ($val == 1) {
-               $input = array('plugin_archifun_funcarea_id' => $data['plugin_archifun_funcarea_id'],
+               $input = ['plugin_archifun_funcarea_id' => $data['plugin_archifun_funcarea_id'],
                               'items_id'      => $key,
-                              'itemtype'      => $data['itemtype']);
+                              'itemtype'      => $data['itemtype']];
                if ($funcarea_item->can(-1,'w',$input)) {
                   if ($funcarea_item->can(-1,'w',$input)) {
                      $funcarea_item->add($input);
