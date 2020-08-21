@@ -41,8 +41,13 @@ class PluginArchifunMenu extends CommonGLPI {
       if (PluginArchifunFuncarea::canCreate()) {
          $menu['links']['add']                        = PluginArchifunFuncarea::getFormURL(false);
       }
+      $menu['icon'] = self::getIcon();
 
       return $menu;
+   }
+
+   static function getIcon() {
+      return "fas fa-puzzle-piece";
    }
 
    static function removeRightsFromSession() {
