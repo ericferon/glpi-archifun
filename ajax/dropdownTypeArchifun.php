@@ -51,11 +51,11 @@ if (isset($_POST["funcareatype"])) {
 
    Dropdown::show('PluginArchifunFuncarea',
                   ['name'      => $_POST['myname'],
-                        'used'      => $used,
-                        'width'     => '50%',
-                        'entity'    => $_POST['entity'],
-                        'rand'      => $_POST['rand'],
-                        'condition' => "glpi_plugin_archifun_funcarea.plugin_archifun_funcareatypes_id='".$_POST["funcareatype"]."'"]);
+					'used'      => $used,
+					'width'     => '50%',
+					'entity'    => $_POST['entity'],
+					'rand'      => $_POST['rand'],
+					'condition' => ["glpi_plugin_archifun_funcarea.plugin_archifun_funcareatypes_id"=>$_POST["funcareatype"]]]);
 
 }
 
