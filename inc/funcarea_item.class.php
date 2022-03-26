@@ -492,10 +492,10 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
       if (Session::isMultiEntitiesMode()) {
          echo "<th>".__('Entity')."</th>";
       }
-      echo "<th>".PluginFuncareasServerType::getTypeName(1)."</th>";
-      echo "<th>".PluginArchifunFuncareaCategory::getTypeName(1)."</th>";
+//      echo "<th>".PluginFuncareasServerType::getTypeName(1)."</th>";
+//      echo "<th>".PluginArchifunFuncareaCategory::getTypeName(1)."</th>";
       echo "<th>".__('Supplier')."</th>";
-      echo "<th>".__('Editor', 'archifun')."</th>";
+//      echo "<th>".__('Editor', 'archifun')."</th>";
       echo "</tr>";
       $used = [];
 

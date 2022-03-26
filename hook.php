@@ -27,12 +27,12 @@
 function plugin_archifun_install() {
    global $DB;
 
-   include_once (GLPI_ROOT."/plugins/archifun/inc/profile.class.php");
+   include_once (Plugin::getPhpDir("archifun")."/inc/profile.class.php");
 
    $update=false;
    if (!$DB->TableExists("glpi_plugin_archifun_funcareas")) {
 
-		$DB->runFile(GLPI_ROOT ."/plugins/archifun/sql/empty-1.0.0.sql");
+		$DB->runFile(Plugin::getPhpDir("archifun")."/sql/empty-1.0.0.sql");
 	}
 
    
@@ -92,8 +92,8 @@ function plugin_archifun_install() {
 function plugin_archifun_uninstall() {
    global $DB;
    
-   include_once (GLPI_ROOT."/plugins/archifun/inc/profile.class.php");
-   include_once (GLPI_ROOT."/plugins/archifun/inc/menu.class.php");
+   include_once (Plugin::getPhpDir("archifun")."/inc/profile.class.php");
+   include_once (Plugin::getPhpDir("archifun")."/inc/menu.class.php");
    
 	$tables = ["glpi_plugin_archifun_funcareas",
 					"glpi_plugin_archifun_funcareas_items",

@@ -49,6 +49,9 @@ function plugin_init_archifun() {
    if (class_exists('PluginArchiswSwcomponent')) {
       PluginArchiswSwcomponent::registerType('PluginArchifunFuncarea');
    }
+   if (class_exists('PluginArchimapGraph')) {
+      PluginArchimapGraph::registerType('PluginArchifunFuncarea');
+   }
    //Plugin::registerClass('PluginArchifunFuncarea_Item',
    //                      ['ticket_types' => true]);
       
@@ -80,7 +83,7 @@ function plugin_version_archifun() {
 
    return array (
       'name' => _n('Functional Area', 'Functional Areas', 2, 'archifun'),
-      'version' => '2.2.2',
+      'version' => '2.2.4',
       'author'  => "Eric Feron",
       'license' => 'GPLv2+',
       'homepage'=>'https://github.com/ericferon/glpi-archifun',
@@ -97,7 +100,7 @@ function plugin_version_archifun() {
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_archifun_check_prerequisites() {
    if (version_compare(GLPI_VERSION, '9.5', 'lt')
-       || version_compare(GLPI_VERSION, '9.6', 'ge')) {
+       || version_compare(GLPI_VERSION, '10.1', 'ge')) {
       if (method_exists('Plugin', 'messageIncompatible')) {
          echo Plugin::messageIncompatible('core', '9.5');
       }

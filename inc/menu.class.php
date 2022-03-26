@@ -36,7 +36,7 @@ class PluginArchifunMenu extends CommonGLPI {
 
       $menu                                           = [];
       $menu['title']                                  = self::getMenuName();
-      $menu['page']                                   = "/plugins/archifun/front/funcarea.php";
+      $menu['page']                                   = "/".Plugin::getWebDir('archifun', false)."/front/funcarea.php";
       $menu['links']['search']                        = PluginArchifunFuncarea::getSearchURL(false);
       if (PluginArchifunFuncarea::canCreate()) {
          $menu['links']['add']                        = PluginArchifunFuncarea::getFormURL(false);

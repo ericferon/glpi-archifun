@@ -337,8 +337,8 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
          }
       }
 
-      $where = " WHERE `glpi_plugin_archifun_funcarea`.`is_deleted` = '0' ".
-                       getEntitiesRestrictRequest("AND", "glpi_plugin_archifun_funcarea", '', $p['entity'], true);
+      $where = " WHERE `glpi_plugin_archifun_funcareas`.`is_deleted` = '0' ".
+                       getEntitiesRestrictRequest("AND", "glpi_plugin_archifun_funcareas", '', $p['entity'], true);
 
       $p['used'] = array_filter($p['used']);
       if (count($p['used'])) {
@@ -346,9 +346,9 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
       }
 
       $query = "SELECT *
-                FROM `glpi_plugin_dataflows_dataflowtypes`
-                WHERE `id` IN (SELECT DISTINCT `plugin_dataflows_dataflowtypes_id`
-                               FROM `glpi_plugin_archifun_funcarea`
+                FROM `glpi_plugin_archifun_funcareas`
+                WHERE `id` IN (SELECT DISTINCT `plugin_archifun_funcareas_id`
+                               FROM `glpi_plugin_archifun_funcareas`
                              $where)
                 ORDER BY `name`";
       $result = $DB->query($query);
@@ -359,26 +359,26 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
          $values[$data['id']] = $data['name'];
       }
       $rand = mt_rand();
-      $out  = Dropdown::showFromArray('_dataflowtype', $values, ['width'   => '30%',
+      $out  = Dropdown::showFromArray('_funcarea', $values, ['width'   => '30%',
                                                                      'rand'    => $rand,
                                                                      'display' => false]);
-      $field_id = Html::cleanId("dropdown__dataflowtype$rand");
+      $field_id = Html::cleanId("dropdown__funcarea$rand");
 
-      $params   = ['dataflowtype' => '__VALUE__',
+      $params   = ['funcarea' => '__VALUE__',
                         'entity' => $p['entity'],
                         'rand'   => $rand,
                         'myname' => $p['name'],
                         'used'   => $p['used']];
 
       $out .= Ajax::updateItemOnSelectEvent($field_id,"show_".$p['name'].$rand,
-                                            $CFG_GLPI["root_doc"]."/plugins/archifun/ajax/dropdownTypeFuncareas.php",
+                                            Plugin::getPhpDir("archifun")."/ajax/dropdownTypeFuncareas.php",
                                             $params, false);
       $out .= "<span id='show_".$p['name']."$rand'>";
       $out .= "</span>\n";
 
-      $params['dataflowtype'] = 0;
+      $params['funcarea'] = 0;
       $out .= Ajax::updateItem("show_".$p['name'].$rand,
-                               $CFG_GLPI["root_doc"]. "/plugins/archifun/ajax/dropdownTypeFuncareas.php",
+                               Plugin::getPhpDir("archifun")."/ajax/dropdownTypeFuncareas.php",
                                $params, false);
       if ($p['display']) {
          echo $out;
