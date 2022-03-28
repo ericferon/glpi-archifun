@@ -24,9 +24,14 @@
             </authors>
             <versions>
 			<version>
+				<num>2.2.5</num>
+				<compatibility>~9.5.0 || ~10.0.0</compatibility>
+				<download_url>https://github.com/ericferon/glpi-archifun/releases/download/v2.2.5/archifun-v2.2.5.tar.gz</download_url>
+			</version>
+			<version>
 				<num>2.2.4</num>
-				<compatibility>~9.5.0,~10.0.0</compatibility>
-				<download_url>https://github.com/ericferon/glpi-archifun/releases/download/v2.2.3/archifun-v2.2.3.tar.gz</download_url>
+				<compatibility>~9.5.0 || ~10.0.0</compatibility>
+				<download_url>https://github.com/ericferon/glpi-archifun/releases/download/v2.2.4/archifun-v2.2.4.tar.gz</download_url>
 			</version>
 			<version>
 				<num>2.2.3</num>
@@ -55,32 +60,32 @@
 			</version>
 			<version>
 				<num>2.0.10</num>
-				<compatibility>~9.2.0,~9.3.0<compatibility>
+				<compatibility>~9.2.0 || ~9.3.0<compatibility>
 				<download_url>https://github.com/ericferon/glpi-archifun/releases/download/v2.0.10/archifun-v2.0.10.tar.gz</download_url>
 			</version>
 			<version>
 				<num>2.0.9</num>
-				<compatibility>~9.2.0,~9.3.0<compatibility>
+				<compatibility>~9.2.0 || ~9.3.0<compatibility>
 				<download_url>https://github.com/ericferon/glpi-archifun/releases/download/v2.0.9/archifun-v2.0.9.tar.gz</download_url>
 			</version>
 			<version>
 				<num>2.0.8</num>
-				<compatibility>~9.2.0,~9.3.0<compatibility>
+				<compatibility>~9.2.0 || ~9.3.0<compatibility>
 				<download_url>https://github.com/ericferon/glpi-archifun/releases/download/v2.0.8/archifun-v2.0.8.tar.gz</download_url>
 			</version>
 			<version>
 				<num>2.0.7</num>
-				<compatibility>~9.2.0,~9.3.0<compatibility>
+				<compatibility>~9.2.0 || ~9.3.0<compatibility>
 				<download_url>https://github.com/ericferon/glpi-archifun/releases/download/v2.0.7/archifun-v2.0.7.tar.gz</download_url>
 			</version>
 			<version>
 				<num>2.0.6</num>
-				<compatibility>~9.2.0,~9.3.0<compatibility>
+				<compatibility>~9.2.0 || ~9.3.0<compatibility>
 				<download_url>https://github.com/ericferon/glpi-archifun/releases/download/v2.0.6/archifun-v2.0.6.tar.gz</download_url>
 			</version>
 			<version>
 				<num>2.0.5</num>
-				<compatibility>~9.2.0,~9.3.0<compatibility>
+				<compatibility>~9.2.0 || ~9.3.0<compatibility>
 				<download_url>https://github.com/ericferon/glpi-archifun/releases/download/v2.0.5/archifun-v2.0.5.tar.gz</download_url>
 			</version>
 			<version>
