@@ -36,51 +36,6 @@ function plugin_archifun_install() {
 	}
 
    
-   if ($DB->TableExists("glpi_plugin_archifun_profiles")) {
-   
-      $notepad_tables = ['glpi_plugin_archifun_funcareas'];
-
-      foreach ($notepad_tables as $t) {
-         // Migrate data
-         if (!$DB->FieldExists($t, 'notepad')) {
-            $query = "SELECT id, notepad
-                      FROM `$t`
-                      WHERE notepad IS NOT NULL
-                            AND notepad <>'';";
-            foreach ($DB->request($query) as $data) {
-               $iq = "INSERT INTO `glpi_notepads`
-                             (`itemtype`, `items_id`, `content`, `date`, `date_mod`)
-                      VALUES ('PluginArchifunFuncarea', '".$data['id']."',
-                              '".addslashes($data['notepad'])."', NOW(), NOW())";
-               $DB->queryOrDie($iq, "0.85 migrate notepad data");
-            }
-            $query = "ALTER TABLE `glpi_plugin_archifun_funcareas` DROP COLUMN `notepad`;";
-            $DB->query($query);
-         }
-      }
-   }
-   
-   if ($update) {
-      $query_="SELECT *
-            FROM `glpi_plugin_archifun_profiles` ";
-      $result_=$DB->query($query_);
-      if ($DB->numrows($result_)>0) {
-
-         while ($data=$DB->fetch_array($result_)) {
-            $query="UPDATE `glpi_plugin_archifun_profiles`
-                  SET `profiles_id` = '".$data["id"]."'
-                  WHERE `id` = '".$data["id"]."';";
-            $result=$DB->query($query);
-
-         }
-      }
-
-      $query="ALTER TABLE `glpi_plugin_archifun_profiles`
-               DROP `name` ;";
-      $result=$DB->query($query);
-
-   }
-
    PluginArchifunProfile::initProfile();
    PluginArchifunProfile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
    $migration = new Migration("2.0.0");

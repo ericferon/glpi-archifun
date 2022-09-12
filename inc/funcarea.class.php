@@ -257,7 +257,7 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
       //name of funcarea
       echo "<td>".__('Name')."</td>";
       echo "<td>";
-      Html::autocompletionTextField($this,"name");
+      echo Html::input('name',['value' => $this->fields['name'], 'id' => "name"]);
       echo "</td>";
       echo "</tr>";
 
@@ -270,7 +270,7 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
       //level of funcarea
       echo "<td>".__('Level').": </td>";
       echo "<td>";
-      Html::autocompletionTextField($this,"level",['size' => "2", 'option' => "readonly='readonly'"]);
+      echo Html::input('level',['value' => $this->fields['level'], 'id' => "level", 'size' => "2", 'readonly' => true]);
       echo "</td>";
       echo "</tr>";
 
@@ -278,7 +278,7 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
       //description of funcarea
       echo "<td>".__('Description').":	</td>";
       echo "<td class='top center' colspan='6'>";
-      Html::autocompletionTextField($this,"description",['size' => "140"]);
+      echo Html::input('description',['value' => $this->fields['description'], 'id' => "description", 'width' => "100%"]);
       echo "</td>";
       echo "</tr>";
       echo "<tr class='tab_bg_1'>";
