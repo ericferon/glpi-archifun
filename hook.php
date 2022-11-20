@@ -32,7 +32,7 @@ function plugin_archifun_install() {
    $update=false;
    if (!$DB->TableExists("glpi_plugin_archifun_funcareas")) {
 
-		$DB->runFile(Plugin::getPhpDir("archifun")."/sql/empty-1.0.0.sql");
+		$DB->runFile(Plugin::getPhpDir("archifun")."/sql/empty-1.0.1.sql");
 	}
 
    

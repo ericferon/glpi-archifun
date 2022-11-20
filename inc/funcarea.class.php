@@ -371,14 +371,14 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
                         'used'   => $p['used']];
 
       $out .= Ajax::updateItemOnSelectEvent($field_id,"show_".$p['name'].$rand,
-                                            Plugin::getWebDir("archifun")."/ajax/dropdownTypeArchifun.php",
+                                            Plugin::getWebDir("archifun")."/ajax/dropdownArchifun.php",
                                             $params, false);
       $out .= "<span id='show_".$p['name']."$rand'>";
       $out .= "</span>\n";
 
       $params['funcarea'] = 0;
       $out .= Ajax::updateItem("show_".$p['name'].$rand,
-                               Plugin::getWebDir("archifun")."/ajax/dropdownTypeArchifun.php",
+                               Plugin::getWebDir("archifun")."/ajax/dropdownArchifun.php",
                                $params, false);
       if ($p['display']) {
          echo $out;

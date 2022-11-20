@@ -119,7 +119,7 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
 
       } else if (in_array($item->getType(), PluginArchifunFuncarea::getTypes(true))) {
 
-         self::showForITem($item);
+         self::showForItem($item);
       }
       return true;
    }
@@ -407,12 +407,12 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
       $number = $DB->numrows($result);
       $i      = 0;
 
-      $dataflows      = [];
+      $funcareas      = [];
       $funcarea       = new PluginArchifunFuncarea();
       $used          = [];
       if ($numrows = $DB->numrows($result)) {
          while ($data = $DB->fetchAssoc($result)) {
-            $dataflows[$data['assocID']] = $data;
+            $funcareas[$data['assocID']] = $data;
             $used[$data['id']] = $data['id'];
          }
       }
@@ -448,7 +448,7 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
 
          if (Session::haveRight('plugin_archifun', READ)
              && ($nb > count($used))) {
-            echo "<form name='dataflow_form$rand' id='dataflow_form$rand' method='post'
+            echo "<form name='funcarea_form$rand' id='funcarea_form$rand' method='post'
                    action='".Toolbox::getItemTypeFormURL('PluginArchifunFuncarea')."'>";
             echo "<table class='tab_cadre_fixe'>";
             echo "<tr class='tab_bg_1'>";
@@ -492,10 +492,6 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
       if (Session::isMultiEntitiesMode()) {
          echo "<th>".__('Entity')."</th>";
       }
-//      echo "<th>".PluginFuncareasServerType::getTypeName(1)."</th>";
-//      echo "<th>".PluginArchifunFuncareaCategory::getTypeName(1)."</th>";
-      echo "<th>".__('Supplier')."</th>";
-//      echo "<th>".__('Editor', 'archifun')."</th>";
       echo "</tr>";
       $used = [];
 
@@ -508,17 +504,17 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
                                                 $item->getTypeName(1), $item->getName()));
 
 
-         foreach  ($dataflows as $data) {
-            $dataflowID        = $data["id"];
+         foreach  ($funcareas as $data) {
+            $funcareaID        = $data["id"];
             $link             = NOT_AVAILABLE;
 
-            if ($funcarea->getFromDB($dataflowID)) {
+            if ($funcarea->getFromDB($funcareaID)) {
                $link         = $funcarea->getLink();
             }
 
-            Session::addToNavigateListItems('PluginArchifunFuncarea', $dataflowID);
+            Session::addToNavigateListItems('PluginArchifunFuncarea', $funcareaID);
 
-            $used[$dataflowID]   = $dataflowID;
+            $used[$funcareaID]   = $funcareaID;
             $assocID             = $data["assocID"];
 
             echo "<tr class='tab_bg_1".($data["is_deleted"]?"_2":"")."'>";
@@ -533,14 +529,14 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
                     "</td>";
             }
 //            echo "<td>".Dropdown::getDropdownName("glpi_plugin_archifun_servertypes",$data["plugin_archifun_servertypes_id"])."</td>";
-//            echo "<td>".Dropdown::getDropdownName("glpi_plugin_archifun_dataflowtypes",$data["plugin_archifun_dataflowtypes_id"])."</td>";
+//            echo "<td>".Dropdown::getDropdownName("glpi_plugin_archifun_funcareatypes",$data["plugin_archifun_funcareatypes_id"])."</td>";
 //            echo "<td>".Dropdown::getDropdownName("glpi_manufacturers",$data["manufacturers_id"])."</td>";
-            echo "<td>";
-            echo "<a href=\"".$CFG_GLPI["root_doc"]."/front/supplier.form.php?id=".$data["suppliers_id"]."\">";
-            echo Dropdown::getDropdownName("glpi_suppliers",$data["suppliers_id"]);
-            if ($_SESSION["glpiis_ids_visible"] == 1 )
-               echo " (".$data["suppliers_id"].")";
-            echo "</a></td>";
+//            echo "<td>";
+//            echo "<a href=\"".$CFG_GLPI["root_doc"]."/front/supplier.form.php?id=".$data["suppliers_id"]."\">";
+//            echo Dropdown::getDropdownName("glpi_suppliers",$data["suppliers_id"]);
+//            if ($_SESSION["glpiis_ids_visible"] == 1 )
+//               echo " (".$data["suppliers_id"].")";
+//            echo "</a></td>";
             echo "</tr>";
             $i++;
          }

@@ -29,47 +29,47 @@ include ('../../../inc/includes.php');
 if (!isset($_GET["id"])) $_GET["id"] = "";
 if (!isset($_GET["withtemplate"])) $_GET["withtemplate"] = "";
 
-$dataflow=new PluginArchifunFuncarea();
-$dataflow_item=new PluginArchifunFuncarea_Item();
+$funcarea=new PluginArchifunFuncarea();
+$funcarea_item=new PluginArchifunFuncarea_Item();
 
 if (isset($_POST["add"])) {
 
-   $dataflow->check(-1, CREATE,$_POST);
-   $newID=$dataflow->add($_POST);
+   $funcarea->check(-1, CREATE,$_POST);
+   $newID=$funcarea->add($_POST);
    if ($_SESSION['glpibackcreated']) {
-      Html::redirect($dataflow->getFormURL()."?id=".$newID);
+      Html::redirect($funcarea->getFormURL()."?id=".$newID);
    }
    Html::back();
 
 } else if (isset($_POST["delete"])) {
 
-   $dataflow->check($_POST['id'], DELETE);
-   $dataflow->delete($_POST);
-   $dataflow->redirectToList();
+   $funcarea->check($_POST['id'], DELETE);
+   $funcarea->delete($_POST);
+   $funcarea->redirectToList();
 
 } else if (isset($_POST["restore"])) {
 
-   $dataflow->check($_POST['id'], PURGE);
-   $dataflow->restore($_POST);
-   $dataflow->redirectToList();
+   $funcarea->check($_POST['id'], PURGE);
+   $funcarea->restore($_POST);
+   $funcarea->redirectToList();
 
 } else if (isset($_POST["purge"])) {
 
-   $dataflow->check($_POST['id'], PURGE);
-   $dataflow->delete($_POST,1);
-   $dataflow->redirectToList();
+   $funcarea->check($_POST['id'], PURGE);
+   $funcarea->delete($_POST,1);
+   $funcarea->redirectToList();
 
 } else if (isset($_POST["update"])) {
 
-   $dataflow->check($_POST['id'], UPDATE);
-   $dataflow->update($_POST);
+   $funcarea->check($_POST['id'], UPDATE);
+   $funcarea->update($_POST);
    Html::back();
 
 } else if (isset($_POST["additem"])) {
 
    if (!empty($_POST['itemtype'])&&$_POST['items_id']>0) {
-      $dataflow_item->check(-1, UPDATE, $_POST);
-      $dataflow_item->addItem($_POST);
+      $funcarea_item->check(-1, UPDATE, $_POST);
+      $funcarea_item->addItem($_POST);
    }
    Html::back();
 
@@ -78,8 +78,8 @@ if (isset($_POST["add"])) {
    foreach ($_POST["item"] as $key => $val) {
          $input = ['id' => $key];
          if ($val==1) {
-            $dataflow_item->check($key, UPDATE);
-            $dataflow_item->delete($input);
+            $funcarea_item->check($key, UPDATE);
+            $funcarea_item->delete($input);
          }
       }
    Html::back();
@@ -87,23 +87,17 @@ if (isset($_POST["add"])) {
 } else if (isset($_POST["deletearchifun"])) {
 
    $input = ['id' => $_POST["id"]];
-   $dataflow_item->check($_POST["id"], UPDATE);
-   $dataflow_item->delete($input);
+   $funcarea_item->check($_POST["id"], UPDATE);
+   $funcarea_item->delete($input);
    Html::back();
 
 } else {
 
-   $dataflow->checkGlobal(READ);
+   $funcarea->checkGlobal(READ);
 
-   $plugin = new Plugin();
-   if ($plugin->isActivated("environment")) {
-      Html::header(PluginArchifunFuncarea::getTypeName(2),
-                     '',"admin","pluginenvironmentdisplay","archifun");
-   } else {
-      Html::header(PluginArchifunFuncarea::getTypeName(2), '', "admin",
+   Html::header(PluginArchifunFuncarea::getTypeName(2), '', "admin",
                    "pluginarchifunmenu");
-   }
-   $dataflow->display($_GET);
+   $funcarea->display($_GET);
 
    Html::footer();
 }
