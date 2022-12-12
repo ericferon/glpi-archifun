@@ -34,7 +34,9 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
    static $rightname = "plugin_archifun";
    protected $usenotepad         = true;
    
-   static $types = ['Computer','Software', 'SoftwareLicense'];
+   static $types = ['Computer','Software', 'SoftwareLicense'//, 
+//                    'PluginArchibpTask'
+                    ];
 
    static function getTypeName($nb=0) {
 
@@ -86,61 +88,6 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
 //      $temp->deleteByCriteria(['plugin_archifun_funcareas_id' => $this->fields['id']]);
    }
 
-   function getSearchOptions() {
-
-      $tab                       = [];
-      if (version_compare(GLPI_VERSION,'9.3','ge')) return $tab;
-
-      $tab['common']             = self::getTypeName(2);
-
-      $tab[1]['table']           = $this->getTable();
-      $tab[1]['field']           = 'name';
-      $tab[1]['name']            = __('Name');
-      $tab[1]['datatype']        = 'itemlink';
-      $tab[1]['itemlink_type']   = $this->getType();
-
-      $tab[3]['table']           = $this->getTable();
-      $tab[3]['field']           = 'level';
-      $tab[3]['name']            = __('Level');
-      $tab[3]['datatype']        = 'text';
-
-      $tab[11]['table']          = 'glpi_users';
-      $tab[11]['field']          = 'name';
-      $tab[11]['linkfield']      = 'users_id';
-      $tab[11]['name']           = __('Funcarea Expert', 'archifun');
-      $tab[11]['datatype']       = 'dropdown';
-      $tab[11]['right']          = 'interface';
-
-      $tab[12]['table']          = 'glpi_groups';
-      $tab[12]['field']          = 'name';
-      $tab[12]['linkfield']      = 'groups_id';
-      $tab[12]['name']           = __('Funcarea Follow-up', 'archifun');
-      $tab[12]['condition']      = '`is_assign`';
-      $tab[12]['datatype']       = 'dropdown';
-
-      $tab[14]['table']          = $this->getTable();
-      $tab[14]['field']          = 'date_mod';
-      $tab[14]['massiveaction']  = false;
-      $tab[14]['name']           = __('Last update');
-      $tab[14]['datatype']       = 'datetime';
-
-      $tab[30]['table']          = $this->getTable();
-      $tab[30]['field']          = 'id';
-      $tab[30]['name']           = __('ID');
-      $tab[30]['datatype']       = 'number';
-
-      $tab[80]['table']          = $this->getTable();
-      $tab[80]['field']          = 'completename';
-      $tab[80]['name']           = __('Functional Structure', 'archifun');
-      $tab[80]['datatype']       = 'dropdown';
-      
-      $tab[81]['table']       = 'glpi_entities';
-      $tab[81]['field']       = 'entities_id';
-      $tab[81]['name']        = __('Entity')."-".__('ID');
-      
-      return $tab;
-   }
-
    // search fields from GLPI 9.3 on
    function rawSearchOptions() {
 
@@ -185,7 +132,7 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
          'field'     => 'name',
          'linkfield' => 'groups_id',
          'name'      => __('Funcarea Follow-up', 'archifun'),
-         'condition' => '`is_assign`',
+//         'condition' => '`is_assign`',
          'datatype'  => 'dropdown'
       ];
 
@@ -230,7 +177,7 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
       $ong = [];
       $this->addDefaultFormTab($ong);
       $this->addStandardTab('PluginArchifunFuncarea', $ong, $options);
-//      $this->addStandardTab('PluginArchifunFuncarea_Item', $ong, $options);
+      $this->addStandardTab('PluginArchifunFuncarea_Item', $ong, $options);
       $this->addStandardTab('Notepad', $ong, $options);
       $this->addStandardTab('Log', $ong, $options);
 
@@ -364,22 +311,7 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
                                                                      'display' => false]);
       $field_id = Html::cleanId("dropdown__funcarea$rand");
 
-      $params   = ['funcarea' => '__VALUE__',
-                        'entity' => $p['entity'],
-                        'rand'   => $rand,
-                        'myname' => $p['name'],
-                        'used'   => $p['used']];
 
-      $out .= Ajax::updateItemOnSelectEvent($field_id,"show_".$p['name'].$rand,
-                                            Plugin::getWebDir("archifun")."/ajax/dropdownArchifun.php",
-                                            $params, false);
-      $out .= "<span id='show_".$p['name']."$rand'>";
-      $out .= "</span>\n";
-
-      $params['funcarea'] = 0;
-      $out .= Ajax::updateItem("show_".$p['name'].$rand,
-                               Plugin::getWebDir("archifun")."/ajax/dropdownArchifun.php",
-                               $params, false);
       if ($p['display']) {
          echo $out;
          return $rand;

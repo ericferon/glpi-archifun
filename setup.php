@@ -52,6 +52,9 @@ function plugin_init_archifun() {
    if (class_exists('PluginArchimapGraph')) {
       PluginArchimapGraph::registerType('PluginArchifunFuncarea');
    }
+   if (class_exists('PluginArchibpTask')) {
+      PluginArchibpTask::registerType('PluginArchifunFuncarea');
+   }
    //Plugin::registerClass('PluginArchifunFuncarea_Item',
    //                      ['ticket_types' => true]);
       
@@ -83,7 +86,7 @@ function plugin_version_archifun() {
 
    return array (
       'name' => _n('Functional Area', 'Functional Areas', 2, 'archifun'),
-      'version' => '2.2.8',
+      'version' => '2.2.9',
       'author'  => "Eric Feron",
       'license' => 'GPLv2+',
       'homepage'=>'https://github.com/ericferon/glpi-archifun',
