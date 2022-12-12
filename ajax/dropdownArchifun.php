@@ -34,7 +34,6 @@ if (strpos($_SERVER['PHP_SELF'],"dropdownArchifun.php")) {
 Session::checkCentralAccess();
 
 // Make a select box
-if (isset($_POST["funcareatype"])) {
    $used = [];
 
    // Clean used array
@@ -55,7 +54,5 @@ if (isset($_POST["funcareatype"])) {
 					'entity'    => $_POST['entity'],
 					'rand'      => $_POST['rand']
                   ]);
-
-}
 
 ?>
