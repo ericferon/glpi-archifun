@@ -50,6 +50,9 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
       return _n('Funcarea item', 'Funcareas items', 1, 'archifun');
    }*/
 
+   public function canCreateItem() {
+      return true;
+   }
    /**
     * Clean table when item is purged
     *
@@ -169,7 +172,7 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
 
    function addItem($values) {
 
-      $this->add(['plugin_archifun_funcareas_id'=>$values["plugin_archifun_funcareas_id"],
+      $this->add(['plugin_archifun_funcareas_id'=>$values["_funcarea"],
                         'items_id'=>$values["items_id"],
                         'itemtype'=>$values["itemtype"]]);
 

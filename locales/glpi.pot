@@ -29,10 +29,6 @@ msgid_plural "Functional Areas"
 msgstr[0] ""
 msgstr[1] ""
 
-#: setup.php:95
-msgid "This plugin requires GLPI >= 9.2 and < 9.4"
-msgstr ""
-
 #: inc/funcarea.class.php:108
 msgid "Funcarea Expert"
 msgstr ""
