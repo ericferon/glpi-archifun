@@ -154,6 +154,14 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
       ];
 
       $tab[] = [
+         'id'           => '73',
+         'table'        => $this->getTable(),
+         'field'        => 'is_recursive',
+         'name'         => __('Child entities'),
+         'datatype'     => 'bool'
+      ];
+
+      $tab[] = [
          'id'            => '80',
          'table'         => $this->getTable(),
          'field'    => 'completename',
@@ -162,10 +170,11 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
       ];
 
       $tab[] = [
-         'id'    => '81',
-         'table' => 'glpi_entities',
-         'field' => 'entities_id',
-         'name'  => __('Entity') . "-" . __('ID')
+         'id'        => '81',
+         'table'     => 'glpi_entities',
+         'field'     => 'name',
+         'linkfield' => 'entities_id',
+         'name'      => __('Entity') . "-" . __('ID')
       ];
 
       return $tab;
@@ -257,10 +266,10 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
    }
    
    /**
-    * Make a select box for link dataflow
+    * Make a select box for link funcarea
     *
     * Parameters which could be used in options array :
-    *    - name : string / name of the select (default is plugin_dataflows_dataflowtypes_id)
+    *    - name : string / name of the select (default is plugin_archifun_funcareas_id)
     *    - entity : integer or array / restrict to a defined entity or array of entities
     *                   (default -1 : no restriction)
     *    - used : array / Already used items ID: not to display in dropdown (default empty)
@@ -293,10 +302,8 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
       }
 
       $query = "SELECT *
-                FROM `glpi_plugin_archifun_funcareas`
-                WHERE `id` IN (SELECT DISTINCT `plugin_archifun_funcareas_id`
-                               FROM `glpi_plugin_archifun_funcareas`
-                             $where)
+                FROM `glpi_plugin_archifun_funcareas` 
+                $where
                 ORDER BY `name`";
       $result = $DB->query($query);
 
@@ -306,7 +313,7 @@ class PluginArchifunFuncarea extends CommonTreeDropdown {
          $values[$data['id']] = $data['name'];
       }
       $rand = mt_rand();
-      $out  = Dropdown::showFromArray('_funcarea', $values, ['width'   => '30%',
+      $out  = Dropdown::showFromArray('plugin_archifun_funcareas_id', $values, ['width'   => '30%',
                                                                      'rand'    => $rand,
                                                                      'display' => false]);
       $field_id = Html::cleanId("dropdown__funcarea$rand");

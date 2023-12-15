@@ -172,7 +172,7 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
 
    function addItem($values) {
 
-      $this->add(['plugin_archifun_funcareas_id'=>$values["_funcarea"],
+      $this->add(['plugin_archifun_funcareas_id'=>$values["plugin_archifun_funcareas_id"],
                         'items_id'=>$values["items_id"],
                         'itemtype'=>$values["itemtype"]]);
 
@@ -531,15 +531,6 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
                echo "<td class='center'>".Dropdown::getDropdownName("glpi_entities", $data['entities_id']).
                     "</td>";
             }
-//            echo "<td>".Dropdown::getDropdownName("glpi_plugin_archifun_servertypes",$data["plugin_archifun_servertypes_id"])."</td>";
-//            echo "<td>".Dropdown::getDropdownName("glpi_plugin_archifun_funcareatypes",$data["plugin_archifun_funcareatypes_id"])."</td>";
-//            echo "<td>".Dropdown::getDropdownName("glpi_manufacturers",$data["manufacturers_id"])."</td>";
-//            echo "<td>";
-//            echo "<a href=\"".$CFG_GLPI["root_doc"]."/front/supplier.form.php?id=".$data["suppliers_id"]."\">";
-//            echo Dropdown::getDropdownName("glpi_suppliers",$data["suppliers_id"]);
-//            if ($_SESSION["glpiis_ids_visible"] == 1 )
-//               echo " (".$data["suppliers_id"].")";
-//            echo "</a></td>";
             echo "</tr>";
             $i++;
          }
