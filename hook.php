@@ -31,8 +31,10 @@ function plugin_archifun_install() {
 
    $update=false;
    if (!$DB->TableExists("glpi_plugin_archifun_funcareas")) {
-
-		$DB->runFile(Plugin::getPhpDir("archifun")."/sql/empty-1.0.1.sql");
+		$DB->runFile(Plugin::getPhpDir("archifun")."/sql/empty-1.0.3.sql");
+	}
+   if (!$DB->TableExists("glpi_plugin_archifun_funcareas_itemroles")) {
+		$DB->runFile(Plugin::getPhpDir("archifun")."/sql/update-1.0.3.sql");
 	}
 
    
@@ -52,6 +54,7 @@ function plugin_archifun_uninstall() {
    
 	$tables = ["glpi_plugin_archifun_funcareas",
 					"glpi_plugin_archifun_funcareas_items",
+					"glpi_plugin_archifun_funcareas_itemroles",
 					"glpi_plugin_archifun_profiles"];
 
    foreach($tables as $table)
@@ -104,6 +107,7 @@ function plugin_archifun_getFuncareaRelations() {
    $plugin = new Plugin();
    if ($plugin->isActivated("archifun"))
 		return ["glpi_plugin_archifun_funcareas"=>["glpi_plugin_archifun_funcareas_items"=>"plugin_archifun_funcareas_id"],
+					 "glpi_plugin_archifun_funcareas_itemroles"=>["glpi_plugin_archifun_funcareas_items"=>"plugin_archifun_funcareas_itemroles_id"],
 					 "glpi_entities"=>["glpi_plugin_archifun_funcareas"=>"entities_id"],
 					 "glpi_groups"=>["glpi_plugin_archifun_funcareas"=>"groups_id"],
 					 "glpi_users"=>["glpi_plugin_archifun_funcareas"=>"users_id"]
@@ -117,7 +121,11 @@ function plugin_archifun_getDropdown() {
 
    $plugin = new Plugin();
    if ($plugin->isActivated("archifun"))
-		return [];
+   {  $classes = ['PluginArchifunFuncarea_Itemrole'=>PluginArchifunFuncarea_Itemrole::getTypeName(2)
+		];
+
+      return $classes;
+   }   
    else
       return [];
 }

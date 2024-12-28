@@ -172,9 +172,7 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
 
    function addItem($values) {
 
-      $this->add(['plugin_archifun_funcareas_id'=>$values["plugin_archifun_funcareas_id"],
-                        'items_id'=>$values["items_id"],
-                        'itemtype'=>$values["itemtype"]]);
+      $this->add(array_slice($values, 0, -2));
 
    }
 
@@ -239,7 +237,7 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
 
          echo "<tr class='tab_bg_1'><td colspan='".(3+$colsup)."' class='center'>";
          echo "<input type='hidden' name='plugin_archifun_funcareas_id' value='$instID'>";
-         Dropdown::showSelectItemFromItemtypes(['items_id_name' => 'items_id',
+         $randitemtype=Dropdown::showSelectItemFromItemtypes(['items_id_name' => 'items_id',
                                                      'itemtypes'     => PluginArchifunFuncarea::getTypes(true),
                                                      'entity_restrict'
                                                                      => ($funcarea->fields['is_recursive']
@@ -249,6 +247,25 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
                                                      'checkright'
                                                                      => true,
                                                ]);
+         echo "</td>";
+		 echo "<td>";
+		 echo "<select name='plugin_archifun_funcareas_itemroles_id' id='dropdown_plugin_archifun_funcareas_itemroles_id$randitemtype'>";
+		 echo "</select>";
+		 $entity_restrict = '';
+		 $used=[];
+		 $params=['itemtype'=>'__VALUE__',
+				'entity_restrict'=>$entity_restrict,
+				'rand'=>$randitemtype,
+				'myname'=>'plugin_archifun_funcareas_itemroles_id',
+				'used'=>$used
+		 ];
+		 $field_id = Html::cleanId("dropdown_itemtype".$randitemtype);
+		 Ajax::updateItemOnSelectEvent($field_id,"dropdown_plugin_archifun_funcareas_itemroles_id".$randitemtype,
+                                            Plugin::getWebDir('archifun')."/ajax/dropdownItemRole.php",
+                                            $params, true);
+		 echo "</td>";
+		 echo "<td>";
+         echo "<input name='comment'>";
          echo "</td>";
          echo "<td colspan='2' class='tab_bg_2'>";
          echo "<input type='submit' name='additem' value=\""._sx('button','Add')."\" class='submit'>";
@@ -273,10 +290,12 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
 
       echo "<th>".__('Type')."</th>";
       echo "<th>".__('Name')."</th>";
+      echo "<th>".__('Role','archifun')."</th>";
+      echo "<th>".__('Comment')."</th>";
       if (Session::isMultiEntitiesMode())
          echo "<th>".__('Entity')."</th>";
       echo "<th>".__('Serial number')."</th>";
-      echo "<th>".__('Inventory number')."</th>";
+//      echo "<th>".__('Inventory number')."</th>";
       echo "</tr>";
 
       for ($i=0 ; $i < $number ; $i++) {
@@ -290,20 +309,37 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
             $column="name";
             $itemTable = getTableForItemType($itemType);
 
-            $query = "SELECT `".$itemTable."`.*,
+             if ($itemType!='Entity') {
+                  $query = "SELECT `".$itemTable."`.*, `glpi_plugin_archifun_funcareas_items`.`id` AS items_id, `glpi_plugin_archifun_funcareas_items`.`comment` AS table_items_comment, `glpi_entities`.`id` AS entity, `glpi_plugin_archifun_funcareas_itemroles`.`name` AS role "
+                  ." FROM (`".$itemTable."`"
+                  ." LEFT JOIN `glpi_entities` ON `glpi_entities`.`id` = `".$itemTable."`.`entities_id`)"
+				  .", (`glpi_plugin_archifun_funcareas_items`"
+				  ." LEFT JOIN `glpi_plugin_archifun_funcareas_itemroles` ON `glpi_plugin_archifun_funcareas_items`.`plugin_archifun_funcareas_itemroles_id` = `glpi_plugin_archifun_funcareas_itemroles`.`id`)"
+                  ." WHERE `".$itemTable."`.`id` = `glpi_plugin_archifun_funcareas_items`.`items_id`
+                  AND `glpi_plugin_archifun_funcareas_items`.`itemtype` = '$itemType'
+                  AND `glpi_plugin_archifun_funcareas_items`.`plugin_archifun_funcareas_id` = '$instID' "
+                  . getEntitiesRestrictRequest(" AND ",$itemTable,'','',$item->maybeRecursive());
+
+                  if ($item->maybeTemplate()) {
+                     $query.=" AND ".$itemTable.".is_template='0'";
+                  }
+                  $query.=" ORDER BY `glpi_entities`.`completename`, `".$itemTable."`.`$column` ";
+               } else {
+                  $query = "SELECT `".$itemTable."`.*,
                              `glpi_plugin_archifun_funcareas_items`.`id` AS items_id,
                              `glpi_entities`.`id` AS entity "
-               ." FROM `glpi_plugin_archifun_funcareas_items`, `".$itemTable
-               ."` LEFT JOIN `glpi_entities` ON (`glpi_entities`.`id` = `".$itemTable."`.`entities_id`) "
-               ." WHERE `".$itemTable."`.`id` = `glpi_plugin_archifun_funcareas_items`.`items_id`
-                AND `glpi_plugin_archifun_funcareas_items`.`itemtype` = '$itemType'
-                AND `glpi_plugin_archifun_funcareas_items`.`plugin_archifun_funcareas_id` = '$instID' "
-               . getEntitiesRestrictRequest(" AND ",$itemTable,'','',$item->maybeRecursive());
+                     ." FROM `glpi_plugin_archifun_funcareas_items`, `".$itemTable
+                     ."` LEFT JOIN `glpi_entities` ON (`glpi_entities`.`id` = `".$itemTable."`.`entities_id`) "
+                     ." WHERE `".$itemTable."`.`id` = `glpi_plugin_archifun_funcareas_items`.`items_id`
+                     AND `glpi_plugin_archifun_funcareas_items`.`itemtype` = '$itemType'
+                     AND `glpi_plugin_archifun_funcareas_items`.`plugin_archifun_funcareas_id` = '$instID' "
+                     . getEntitiesRestrictRequest(" AND ",$itemTable,'','',$item->maybeRecursive());
 
-            if ($item->maybeTemplate()) {
-               $query.=" AND `".$itemTable."`.`is_template` = '0'";
-            }
-            $query.=" ORDER BY `glpi_entities`.`completename`, `".$itemTable."`.`$column`";
+                  if ($item->maybeTemplate()) {
+                     $query.=" AND `".$itemTable."`.`is_template` = '0'";
+                  }
+                  $query.=" ORDER BY `glpi_entities`.`completename`, `".$itemTable."`.`$column`";
+               }
 
             if ($result_linked=$DB->query($query)) {
                if ($DB->numrows($result_linked)) {
@@ -337,11 +373,14 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
                      echo "<td class='center' ".(isset($data['is_deleted'])&&$data['is_deleted']?"class='tab_bg_2_2'":"").
                         ">".$name."</td>";
 
+					 echo "<td class='center'>".(isset($data["role"])? "".$data["role"]."" :"-")."</td>";
+                     echo "<td class='center'>".(isset($data["table_items_comment"])? "".$data["table_items_comment"]."" :"-")."</td>";
+
                      if (Session::isMultiEntitiesMode())
                         echo "<td class='center'>".Dropdown::getDropdownName("glpi_entities",$data['entity'])."</td>";
 
                      echo "<td class='center'>".(isset($data["serial"])? "".$data["serial"]."" :"-")."</td>";
-                     echo "<td class='center'>".(isset($data["otherserial"])? "".$data["otherserial"]."" :"-")."</td>";
+//                     echo "<td class='center'>".(isset($data["otherserial"])? "".$data["otherserial"]."" :"-")."</td>";
 
                      echo "</tr>";
                   }
@@ -394,6 +433,7 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
       $query = "SELECT `glpi_plugin_archifun_funcareas_items`.`id` AS assocID,
                        `glpi_entities`.`id` AS entity,
                        `glpi_plugin_archifun_funcareas`.`name` AS assocName,
+                       `plugin_archifun_funcareas_itemroles_id` AS items_itemroles_id, `glpi_plugin_archifun_funcareas_items`.`comment` AS items_comment,
                        `glpi_plugin_archifun_funcareas`.*
                 FROM `glpi_plugin_archifun_funcareas_items`
                 LEFT JOIN `glpi_plugin_archifun_funcareas`
@@ -495,6 +535,8 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
       if (Session::isMultiEntitiesMode()) {
          echo "<th>".__('Entity')."</th>";
       }
+      echo "<th>".__('Role','archifun')."</th>";
+      echo "<th>".__('Comment')."</th>";
       echo "</tr>";
       $used = [];
 
@@ -531,6 +573,8 @@ class PluginArchifunFuncarea_Item extends CommonDBRelation {
                echo "<td class='center'>".Dropdown::getDropdownName("glpi_entities", $data['entities_id']).
                     "</td>";
             }
+			echo "<td class='center'>".((isset($data["items_itemroles_id"]) && $data["items_itemroles_id"] != 0)? Dropdown::getDropdownName("glpi_plugin_archifun_funcareas_itemroles",$data["items_itemroles_id"]) :"-")."</td>";
+			echo "<td class='center'>".((isset($data["items_comment"]) && $data["items_comment"] != '')? "".$data["items_comment"]."" :"-")."</td>";
             echo "</tr>";
             $i++;
          }

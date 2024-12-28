@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Eric Feron
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Archifun 2.0.2\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-17 17:02+0200\n"
+"POT-Creation-Date: 2024-12-28 16:51+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,8 +18,75 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:216
+#. TRANS : %1$s is the itemtype name,
+#. %2$s is the name of the item (used for headings of a list)
+#: inc/funcarea_item.class.php:548
+#, php-format
+msgid "%1$s = %2$s"
+msgstr ""
+
+#: inc/funcarea_item.class.php:236
+msgid "Add an item"
+msgstr ""
+
+#. completename of funcarea
+#: inc/funcarea.class.php:222
+msgid "As child of"
+msgstr ""
+
+#: inc/profile.class.php:124 inc/profile.class.php:152
+msgid "Associable items to a ticket"
+msgstr ""
+
+#: inc/funcarea_item.class.php:466
+msgctxt "button"
+msgid "Associate a funcarea"
+msgstr ""
+
+#: hook.php:216 hook.php:172
 msgid "Associate to the Functional Area"
+msgstr ""
+
+#: inc/funcarea.class.php:160
+msgid "Child entities"
+msgstr ""
+
+#. comment about funcarea
+#: inc/funcarea.class.php:242 inc/funcarea_item.class.php:294
+#: inc/funcarea_item.class.php:539
+msgid "Comment"
+msgstr ""
+
+#. description of funcarea
+#: inc/funcarea.class.php:235
+msgid "Description"
+msgstr ""
+
+#: inc/funcarea_item.class.php:495
+msgid "Editor"
+msgstr ""
+
+#: inc/funcarea.class.php:177 inc/funcarea_item.class.php:296
+#: inc/funcarea_item.class.php:536
+msgid "Entity"
+msgstr ""
+
+#: inc/funcarea.class.php:108 inc/funcarea.class.php:124
+msgid "Funcarea Expert"
+msgstr ""
+
+#: inc/funcarea.class.php:115 inc/funcarea.class.php:134
+msgid "Funcarea Follow-up"
+msgstr ""
+
+#. users
+#: inc/funcarea.class.php:211 inc/funcarea.class.php:256
+msgid "Function Maintainer"
+msgstr ""
+
+#. groups
+#: inc/funcarea.class.php:207 inc/funcarea.class.php:248
+msgid "Function Owner"
 msgstr ""
 
 #: setup.php:82 inc/funcarea.class.php:41 inc/menu.class.php:31
@@ -29,31 +96,46 @@ msgid_plural "Functional Areas"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/funcarea.class.php:108
-msgid "Funcarea Expert"
-msgstr ""
-
-#: inc/funcarea.class.php:115
-msgid "Funcarea Follow-up"
-msgstr ""
-
-#: inc/funcarea.class.php:132
+#: inc/funcarea.class.php:132 inc/funcarea.class.php:168
 msgid "Functional Structure"
 msgstr ""
 
-#: inc/funcarea.class.php:207
-msgid "Function Owner"
+#: inc/profile.class.php:117
+msgid "General"
 msgstr ""
 
-#: inc/funcarea.class.php:211
-msgid "Function Maintainer"
+#: inc/profile.class.php:120
+msgid "Helpdesk"
 msgstr ""
 
-#: inc/funcarea_item.class.php:466
-msgctxt "button"
-msgid "Associate a funcarea"
+#: inc/funcarea.class.php:152 inc/funcarea.class.php:177
+msgid "ID"
 msgstr ""
 
-#: inc/funcarea_item.class.php:495
-msgid "Editor"
+#: inc/funcarea.class.php:144
+msgid "Last update"
+msgstr ""
+
+#. level of funcarea
+#: inc/funcarea.class.php:115 inc/funcarea.class.php:227
+msgid "Level"
+msgstr ""
+
+#. name of funcarea
+#: hook.php:144 inc/funcarea.class.php:106 inc/funcarea.class.php:214
+#: inc/funcarea_item.class.php:292 inc/funcarea_item.class.php:534
+msgid "Name"
+msgstr ""
+
+#: inc/funcarea_item.class.php:293 inc/funcarea_item.class.php:538
+msgid "Role"
+msgstr ""
+
+#: inc/funcarea_item.class.php:297
+msgid "Serial number"
+msgstr ""
+
+#: inc/funcarea_item.class.php:291 inc/funcarea_itemrole.class.php:49
+#: inc/funcarea_itemrole.class.php:60
+msgid "Type"
 msgstr ""
